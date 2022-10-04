@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #f8edeb;
+    display: flex;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
+    flex-direction: column;
+
+}
+
+header{
+    width: 60%;
+    background-color: #fec89a ;
+    padding: 50px;
+    margin-top: 50px;
+}
+h1{
+    text-align: center;
+}
