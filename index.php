@@ -1,6 +1,6 @@
 <?php
 
-
+    ini_set('display_errors','On'); //sirve para comprobar els errors
     session_start();
     require 'config.php';
     require 'src/router.php';
