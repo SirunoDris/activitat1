@@ -3,7 +3,7 @@ function connectMysql(string $dsn,string $dbuser,string $dbpass){
     try{
         $db = new PDO($dsn, $dbuser, $dbpass);
         $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
 
     }catch(PDOException $e){
         die( $e->getMessage());
@@ -19,19 +19,32 @@ function connectMysql(string $dsn,string $dbuser,string $dbpass){
  * @return boolean
  * 
  *  */    
-function auth(string $db, string $email, string $password):bool{
-    var_dump($db);
-    die;
+    
+
+function auth($db, string $email, string $password):bool{
+    //echo "Hola";
+    //var_dump($db);
+    //die;
     $stmt=$db->prepare('SELECT * FROM users WHERE email=:email LIMIT 1');
-    $stmt->execute([':email'=>$email]);
+    
+    $rest = $stmt->execute([':email'=>$email]);
+    
     $count=$stmt->rowCount();
-    $row=$stmt->fetchAll();
-      
-    if($stmt->rowCount()==1){
+    if ($count==1){
+        var_dump($stmt->fetchAll());
         $user=$stmt->fetchAll()[0];
+        
+        return true;
+        header('location:?url=dashboard');
+    }
+    
+    if($stmt->rowCount()== null){
+       
+        echo"dewijfowejfojwefj";
+        //coge la primera fila de la consulta
         if(password_verify($password,$user->password)){
             //return true: login correcto
-            $_SESSION['user']=$user;
+            $_SESSION['user']=$user; //genera un objeto. La variable de sesion de usuario en db.php hemos dicho que devuelve object
             header('location:?url=dashboard');
             return true;
         }
